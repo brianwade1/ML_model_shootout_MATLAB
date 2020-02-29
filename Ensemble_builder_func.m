@@ -1,3 +1,19 @@
+%Copyright (C) 2020  Brian M. Wade
+
+%    This program is free software: you can redistribute it and/or modify
+%    it under the terms of the GNU General Public License as published by
+%    the Free Software Foundation, either version 3 of the License, or
+%    (at your option) any later version.
+
+%    This program is distributed in the hope that it will be useful,
+%    but WITHOUT ANY WARRANTY; without even the implied warranty of
+%    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%    GNU General Public License for more details.
+
+%    You should have received a copy of the GNU General Public License
+%    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+
 function [stats_train_EF, stats_val_EF, y_train_EF, y_val_EF,...
     forest_best_EF, num_trees_best_EF, max_splits_best_EF,...
     min_leaf_size_best_EF, lr_best_EF] = Ensemble_builder_func(x_train,...
