@@ -23,31 +23,28 @@
 
 % Written by: Brian Wade
 
-
+%% Setup
 clear
 clc
 close all
 start_time = tic;
 %seed = rng(123);
 
+global want_parellel
 
 
 %% Inputs
 
 input_file = 'AISR LRPF final output means from MATLAB.csv';
-DoE_cols = 1:21;
-noise_seed_col = 18;
+feature_cols = 1:21;
+ignore_col = 18;
+target_col = 26;
 
-global want_parellel
+
 want_parellel = false;
-
-%target_col = 23; %Enemy_AAA_Losses
-target_col = 26; %Enemy_Artillery_Losses
-%target_col = 41; %total loss ratio
 
 val_perc = 0.15;
 test_perc = 0.15;
-
 
 want_all_display =true;
 want_final_display = true;
@@ -56,16 +53,15 @@ want_plot = true;
 
 %% Get data
 
-%data_raw = readmatrix(input_file);
 table = readtable(input_file, 'PreserveVariableNames', 1);
 VarNames = table.Properties.VariableNames';
 data_raw = table2array(table);
 
-%remove noise seed column
-data_raw(:,noise_seed_col)=[];
+%remove ignore cols
+data_raw(:,ignore_col)=[];
 
 %divide data into input and target matricies
-x = data_raw(:,DoE_cols);
+x = data_raw(:,feature_cols);
 target = data_raw(:,target_col);
 
 %% Prepare the data
