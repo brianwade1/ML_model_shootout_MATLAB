@@ -1,0 +1,7 @@
+# Ignore finder ds_store files
+.ds_store
+.DS_Store
+.DS_STORE
+
+# Ignore temp files
+*~ 
