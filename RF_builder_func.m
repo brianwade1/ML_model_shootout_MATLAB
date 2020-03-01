@@ -43,8 +43,8 @@ for i = 1:length(max_splits)
         if want_display == true
             disp('********************************')
             disp(['Starting to train RF with ',num2str(max_splits(i)),...
-                ' max splits and ',num2str(min_leaf_size(j)),...
-                ' min leaf size'])
+                ' max splits and a min leaf size of ',...
+                num2str(min_leaf_size(j))])
         end
         
         if want_parellel == true

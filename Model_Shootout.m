@@ -35,10 +35,10 @@ global want_parellel
 
 %% Inputs
 
-input_file = 'AISR LRPF final output means from MATLAB.csv';
-feature_cols = 1:21;
+input_file = '1000 runs 500 noise means resolved ready for analysis.csv';
+feature_cols = 2:21;
 ignore_col = 18;
-target_col = 26;
+target_col = 25;
 
 
 want_parellel = false;
@@ -89,8 +89,10 @@ disp('Let the training begin!!')
 disp(' ')
 disp('Starting the training for Neural Nets')
 [stats_train_NN, stats_val_NN, y_train_NN, y_val_NN, px, py, net_set,...
-  num_NN, nodes_best] = NN_builder_func(x_train, x_val, t_train, t_val,...
-  want_all_display);
+  lr_NN_best, num_NN, nodes_best] = NN_builder_func(x_train, x_val,...
+  t_train, t_val, want_all_display);
+
+
 
 %Transpose outputs of NN 
 y_train_NN = y_train_NN';
@@ -114,14 +116,14 @@ disp(' ')
 disp('Starting the training for Ensemble Forest')
 
 [stats_train_EF, stats_val_EF, y_train_EF, y_val_EF,...
-    forest_best_EF, num_trees_best_EF, max_splits_best_EF,...
-    min_leaf_size_best_EF, lr_best_EF] =  Ensemble_builder_func(x_train,...
-    x_val, t_train,t_val, want_all_display);
+    forest_best_EF, num_trees_best_EF, max_splits_best_EF, lr_best_EF] =...
+    Ensemble_builder_func(x_train, x_val, t_train,t_val, want_all_display);
 
 RMSE_EF = stats_val_EF(2);
 
 
 %% Show final results
+disp('*********************************')
 disp('*********************************')
 disp('... and the winner is ...')
 
@@ -138,7 +140,8 @@ t_set = [t_train; t_val];
 if best_model == 1
     
     disp(['A neural network with ',num2str(nodes_best),...
-        ' nodes is the best model'])
+        ' nodes and a learning rate of ',num2str(lr_NN_best),...
+        ' is the best model'])
     
     x_set_scaled = mapminmax('apply', x_set', px);
     x_test_scaled = mapminmax('apply', x_test', px);
@@ -160,6 +163,10 @@ if best_model == 1
     %Reverse Scaling
     y_train_best = mapminmax('reverse',y_train_scaled,py);
     y_test_best = mapminmax('reverse',y_test_scaled,py);
+    
+    %Transpose back to vertical
+    y_train_best = y_train_best';
+    y_test_best = y_test_best';
     
 elseif best_model == 2
     
@@ -185,7 +192,6 @@ else
     
 end
 
-disp('*********************************')
 disp('*********************************')
 
 %Display the final stats and plot if desired.
