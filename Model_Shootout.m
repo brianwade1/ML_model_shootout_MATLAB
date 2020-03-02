@@ -35,10 +35,15 @@ global want_parellel
 
 %% Inputs
 
-input_file = '1000 runs 500 noise means resolved ready for analysis.csv';
-feature_cols = 2:21;
-ignore_col = 18;
-target_col = 25;
+%input_file = 'abalone.csv';
+%feature_cols = 1:8;
+%ignore_col = 18;
+%target_col = 9;
+
+input_file = 'BostonHousePriceDataset.csv';
+feature_cols = 1:13;
+%ignore_col = 18;
+target_col = 14;
 
 
 want_parellel = false;
@@ -57,8 +62,8 @@ table = readtable(input_file, 'PreserveVariableNames', 1);
 VarNames = table.Properties.VariableNames';
 data_raw = table2array(table);
 
-%remove ignore cols
-data_raw(:,ignore_col)=[];
+%%remove ignore cols
+%data_raw(:,ignore_col)=[];
 
 %divide data into input and target matricies
 x = data_raw(:,feature_cols);
